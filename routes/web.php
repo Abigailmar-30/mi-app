@@ -1,23 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\productoscontroller;
+use App\Http\Controllers\indexcontroller;
+// Route::get(´/´, function () {
+//      return view(´welcome´);
+// });
+// Ruta principal usando controlador invocable
+//Route::get('/', indexcontroller::class);
+Route::get('/', [productoscontroller::class, 'mostrar']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
-//----------- declaracion de rutas fijas ----------------//
-Route::get('/Productos',function(){
-    return "Seccion de productos";
-});
-//----------- declaracion con parametros ----------------//
+/* //----------- declaración de rutas fijas -----------
+Route::get('/productos', [productoscontroller::class, 'create']);
 
-Route::get('Productos/{id}', function ($id){
-    return "Bienvenido $id";
-});
-//----------- declaracion de rutas fijas ----------------//
+//----------- declaración con parámetros -----------
+Route::get('/productos/crear', [productoscontroller::class,'create']);
+Route::get('/productos/{product}', [productoscontroller::class, 'show']); */
 
-Route::get('prueba parametros/{id}', function ($id){
-    $d=$id;
-    $nombre = explode("-",$d);
-    return "tu nombre es $nombre[1]";
-});
+
+Route::controller(productoscontroller::class)->group (function (){
+    Route::get('/productos',"index");
+    Route::get('/productos/crear',"create ");
+    Route::get('productos/{prod}',"show");
+}); 
